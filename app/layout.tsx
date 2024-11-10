@@ -2,14 +2,17 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
 import ThemeProvider from "@/context/Theme";
-
-
-const inter  = localFont({
+import { Toaster } from "@/components/ui/toaster";
+import { SessionProvider } from "next-auth/react";
+import { auth } from "@/auth";
+import { ReactNode } from "react";
+ 
+const inter = localFont({
   src: "./fonts/interVF.ttf",
   variable: "--font-inter",
   weight: "100 200 300  400 500 600 700 800 900",
 });
-const spaceGrotesk  = localFont({
+const spaceGrotesk = localFont({
   src: "./fonts/SpaceGroteskVF.ttf",
   variable: "--font-inter",
   weight: " 300  400 500 600 700 ",
@@ -23,26 +26,28 @@ export const metadata: Metadata = {
     icon: "/images/site-logo.svg",
   },
 };
-
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+const RootLayout = async ({ children }: { children: ReactNode }) => {
+  const session = await auth(); {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en" suppressHydrationWarning >
+      <SessionProvider session={session}> 
       <body
         className={`${inter.className} ${spaceGrotesk.variable} antialiased`}
       >
-           <ThemeProvider
+        <ThemeProvider
           attribute="class"
           defaultTheme="system"
           enableSystem
           disableTransitionOnChange
         >
-        {children}</ThemeProvider>
+     
+          {children}
+        </ThemeProvider>
       </body>
+      <Toaster/>
+</SessionProvider>
     </html>
   );
+}
 }
 //className bach twli default FONT APP
