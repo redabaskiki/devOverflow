@@ -1,9 +1,9 @@
-"use client "
+"use client"
 import Image from "next/image";
 import React from "react";
 
 import { Button } from "../ui/button";
-import ROUTES from "@/constatnts/Routes";
+import ROUTES from "@/constants/routes";
 import { toast } from "@/hooks/use-toast";
 import { signIn } from "next-auth/react";
 import { Github } from "lucide-react";

@@ -51,3 +51,4 @@ const RootLayout = async ({ children }: { children: ReactNode }) => {
 }
 }
 //className bach twli default FONT APP
+export default RootLayout;
