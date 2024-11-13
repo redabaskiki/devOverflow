@@ -26,28 +26,34 @@ import {
   codeBlockPlugin,
   codeMirrorPlugin,
   diffSourcePlugin,
+  CodeToggle,
 } from "@mdxeditor/editor";
 import { basicDark } from "cm6-theme-basic-dark";
 import { useTheme } from "next-themes";
 import type { ForwardedRef } from "react";
 import "@mdxeditor/editor/style.css";
+import { Ref } from "react";
+
 import "./dark-editor.css";
 interface Props {
   value: string;
   fieldChange: (value: string) => void;
-  editorRef: ForwardedRef<MDXEditorMethods> | null;
+  editorRef: Ref<MDXEditorMethods> | null;
 }
-const Editor = ({ value, editorRef, fieldChange, ...props }: Props) => {
+ const Editor = ({ value, editorRef, fieldChange }: Props)=> {
   const { resolvedTheme } = useTheme();
   const theme = resolvedTheme === "dark" ? [basicDark] : [];
+    const themeExtension = resolvedTheme === "dark" ? [basicDark] : [];
+
   return (
     <MDXEditor
       key={resolvedTheme}
       markdown={value}
       ref={editorRef}
-      className="background-light800_dark200 light-border-2 markdown-editor dark-editor w-full border"
       onChange={fieldChange}
+      className="background-light800_dark200 light-border-2 markdown-editor dark-editor grid w-full border"
       plugins={[
+        
         headingsPlugin(),
         listsPlugin(),
         linkPlugin(),
@@ -64,7 +70,7 @@ const Editor = ({ value, editorRef, fieldChange, ...props }: Props) => {
             txt: "txt",
             sql: "sql",
             html: "html",
-            saas: "saas",
+            sass: "sass",
             scss: "scss",
             bash: "bash",
             json: "json",
@@ -74,8 +80,9 @@ const Editor = ({ value, editorRef, fieldChange, ...props }: Props) => {
             tsx: "TypeScript (React)",
             jsx: "JavaScript (React)",
           },
+          codeMirrorExtensions: themeExtension,
+
           autoLoadLanguageSupport: true,
-          codeMirrorExtensions: theme,
         }),
         diffSourcePlugin({ viewMode: "rich-text", diffMarkdown: "" }),
         toolbarPlugin({
@@ -93,6 +100,8 @@ const Editor = ({ value, editorRef, fieldChange, ...props }: Props) => {
                       <Separator />
                       <BoldItalicUnderlineToggles />
                       <Separator />
+                      <CodeToggle />
+
                       <ListsToggle />
                       <Separator />
                       <CreateLink />
@@ -109,7 +118,7 @@ const Editor = ({ value, editorRef, fieldChange, ...props }: Props) => {
           ),
         }),
       ]}
-      {...props}
+     
     />
   );
 };
