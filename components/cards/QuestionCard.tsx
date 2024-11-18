@@ -3,8 +3,7 @@ import React from "react";
 import ROUTES from "@/constants/routes";
 import { getTimeStamp } from "@/lib/utils";
 import TagCard from "./TagCard";
-import Matric from "../MAtric";
-import MAtric from "../MAtric";
+ import MAtric from "../MAtric";
  interface Props {
   question: Question;
 }
