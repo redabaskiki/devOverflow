@@ -9,7 +9,7 @@ import handleError from "@/lib/handlers/error";
 import { ValidationError } from "@/lib/http-errors";
 import { api } from "@/lib/api";
 // Home.tsx 
- 
+ import { auth } from "@/auth";
  const questions = [
    {
      _id: "1",
@@ -54,15 +54,10 @@ import { api } from "@/lib/api";
 interface SearchParams {
   searchParams: Promise<{ [key: string]: string }>;
 }
-const test = async () => {
-  try {
-  return await api.users.getAll();
-  } catch (error) {
-    return handleError(error);
-  }
-};
+ 
 const Home = async ({ searchParams }: SearchParams) => {
- await  test();
+ const session = await  auth();
+ console.log( "Session:",session);
   const { query = "" } = await searchParams;
   const filteredQuestions = questions.filter((question) =>
     question.title.toLowerCase().includes(query?.toLowerCase())
