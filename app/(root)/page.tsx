@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import handleError from "@/lib/handlers/error";
 import { ValidationError } from "@/lib/http-errors";
+import { api } from "@/lib/api";
 // Home.tsx 
  
  const questions = [
@@ -55,10 +56,7 @@ interface SearchParams {
 }
 const test = async () => {
   try {
-    throw new ValidationError({
-      title: ["Required"],
-      tags: ['"JavaScript" is not a valid tag.'],
-    });
+  return await api.users.getAll();
   } catch (error) {
     return handleError(error);
   }
